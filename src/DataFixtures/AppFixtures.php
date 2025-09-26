@@ -14,7 +14,10 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
 
         $reservation = new Reservation();
-
+        $reservation->setUsername("John");
+        $reservation->setStartingDate(new \DateTimeImmutable('2024-06-20 14:00:00'));
+        $reservation->setMinuteDuration(90);
+        $manager->persist($reservation);
         $manager->flush();
     }
 }
