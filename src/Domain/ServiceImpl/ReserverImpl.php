@@ -3,13 +3,15 @@ namespace App\Domain\ServiceImpl;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceInterface\ReseverInterface;
+use App\Entity\Reservation;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 
 class ReserverImpl implements ReseverInterface
 {
     public const MAX_DURATION = 60; // in minutes
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private ObjectMapperInterface $objectMapper)
     {
     }
 
@@ -33,6 +35,10 @@ class ReserverImpl implements ReseverInterface
         if( $reservation->getMinuteDuration() > self::MAX_DURATION) {
             throw new \InvalidArgumentException("Duration cannot exceed ".self::MAX_DURATION." minutes");
         }
+
+        $reservationMap = $this->objectMapper->map($reservation, Reservation::class);
+        $this->entityManager->persist($reservationMap);
+        $this->entityManager->flush();
 
         return null;
     }
