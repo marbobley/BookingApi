@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Infrastructure\Repository;
 
 use App\Domain\RepositoryInterface\ReservationRepositoryInterface;
-use App\Entity\Reservation;
+use App\Infrastructure\Entity\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Entity\Reservation;
+use App\Infrastructure\Entity\Reservation;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 
 #[Map(target: Reservation::class)]

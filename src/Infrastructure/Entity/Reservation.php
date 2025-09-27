@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Infrastructure\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ReservationRepository;
+use App\Infrastructure\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]

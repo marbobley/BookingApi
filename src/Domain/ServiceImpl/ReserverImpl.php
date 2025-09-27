@@ -4,7 +4,7 @@ namespace App\Domain\ServiceImpl;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceInterface\ReseverInterface;
-use App\Entity\Reservation;
+use App\Infrastructure\Entity\Reservation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 

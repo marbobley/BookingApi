@@ -5,7 +5,7 @@ namespace App\Tests;
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceImpl\ReserverImpl;
 use App\Domain\ServiceInterface\ReseverInterface;
-use App\Repository\ReservationRepository;
+use App\Infrastructure\Repository\ReservationRepository;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
