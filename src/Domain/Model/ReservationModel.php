@@ -11,6 +11,8 @@ class ReservationModel
     ) {
     }
 
+    private bool $isReserved = false;
+
     public function getUsername(): string
     {
         return $this->username;
@@ -24,5 +26,25 @@ class ReservationModel
     public function getMinuteDuration(): int
     {
         return $this->minuteDuration;
+    }
+
+    /**
+     * Get the value of isReserved
+     */ 
+    public function getIsReserved()
+    {
+        return $this->isReserved;
+    }
+
+    /**
+     * Set the value of isReserved
+     *
+     * @return  self
+     */ 
+    public function setIsReserved($isReserved)
+    {
+        $this->isReserved = $isReserved;
+
+        return $this;
     }
 }

@@ -64,6 +64,7 @@ class ReserverTest extends KernelTestCase
     {
         $reservationModel = new ReservationModel($name, $date, $duration);
         $result = $this->reserverInterface->reserver($reservationModel);
-        $this->assertNull($result);
+        $this->assertInstanceOf(ReservationModel::class, $result);
+        $this->assertTrue($result->getIsReserved());
     }
 }

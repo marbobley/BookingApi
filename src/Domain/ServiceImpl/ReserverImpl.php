@@ -33,10 +33,13 @@ class ReserverImpl implements ReserverInterface
         if ($reservation->getMinuteDuration() > self::MAX_DURATION) {
             throw new \InvalidArgumentException('Duration cannot exceed '.self::MAX_DURATION.' minutes');
         }
+
+        $reservation->setIsReserved(true);
+
         $reservationMap = $this->objectMapper->mapper($reservation);
         $this->entityManager->persist($reservationMap);
         $this->entityManager->flush();
 
-        return null;
+        return $reservation;
     }
 }
