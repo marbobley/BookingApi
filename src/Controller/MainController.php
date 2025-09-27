@@ -19,6 +19,7 @@ final class MainController extends AbstractController
             60
         );
         $reserver2 = $reserver->reserver($reservationModel);
+
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
         ]);
