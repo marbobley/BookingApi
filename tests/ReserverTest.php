@@ -4,6 +4,8 @@ namespace App\Tests;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceImpl\ReserverImpl;
+use App\Domain\ServiceInterface\ReseverInterface;
+use App\Repository\ReservationRepository;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -11,15 +13,22 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ReserverTest extends KernelTestCase
 {
 
-    private ?ReserverImpl $reserverImpl;
+    private ?ReseverInterface $reserverImpl;    
 
+    public static function setUpBeforeClass(): void
+    {
+        $reservationRepository = static::getContainer()
+        ->get(ReservationRepository::class);
+
+        $reservationRepository->createQueryBuilder('r')
+            ->delete()
+            ->getQuery()
+            ->execute();
+    }
     protected function setUp(): void
     {
-        $kernel = self::bootKernel();
-
         $this->reserverImpl = static::getContainer()
-        ->get(ReserverImpl::class);
-
+        ->get(ReseverInterface::class);
     }
 
 
@@ -64,6 +73,5 @@ class ReserverTest extends KernelTestCase
         $result = $this->reserverImpl->reserver($reservationModel);
         $this->assertNull($result);
     }
-    
 
 }
