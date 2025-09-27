@@ -2,11 +2,12 @@
 
 namespace App\Domain\ServiceImpl;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\ObjectMapper\ObjectMapperInterface;
+
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceInterface\ReserverInterface;
 use App\Infrastructure\Entity\Reservation;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 
 class ReserverImpl implements ReserverInterface
 {

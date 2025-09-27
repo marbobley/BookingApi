@@ -2,18 +2,11 @@
 
 namespace App\Domain\Model;
 
-use App\Infrastructure\Entity\Reservation;
-use Symfony\Component\ObjectMapper\Attribute\Map;
-
-#[Map(target: Reservation::class)]
 class ReservationModel
 {
     public function __construct(
-        #[Map(target: 'username')]
         private string $username,
-        #[Map(target: 'startingDate')]
         private \DateTimeImmutable $startingDate,
-        #[Map(target: 'minuteDuration')]
         private int $minuteDuration,
     ) {
     }
