@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Domain\Mapper;
+namespace App\Domain\MapperInterface;
 
 use App\Domain\Model\ReservationModel;
 

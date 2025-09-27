@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Mapper;
 
-use App\Domain\Mapper\MapperToReservationModelInterface;
+use App\Domain\MapperInterface\MapperToReservationModelInterface;
 use App\Domain\Model\ReservationModel;
 use App\Infrastructure\Entity\Reservation;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;

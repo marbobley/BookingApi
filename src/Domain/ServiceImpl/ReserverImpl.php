@@ -2,7 +2,7 @@
 
 namespace App\Domain\ServiceImpl;
 
-use App\Domain\Mapper\MapperToReservationModelInterface;
+use App\Domain\MapperInterface\MapperToReservationModelInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Domain\Model\ReservationModel;
