@@ -4,14 +4,16 @@ namespace App\Domain\Model;
 
 class ReservationModel
 {
+
+    private int $id = 0;
+    private bool $isReserved = false;
+    
     public function __construct(
         private string $username,
         private \DateTimeImmutable $startingDate,
         private int $minuteDuration,
     ) {
     }
-
-    private bool $isReserved = false;
 
     public function getUsername(): string
     {
@@ -44,6 +46,26 @@ class ReservationModel
     public function setIsReserved($isReserved)
     {
         $this->isReserved = $isReserved;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
 
         return $this;
     }
