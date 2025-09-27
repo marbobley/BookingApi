@@ -3,7 +3,6 @@
 namespace App\Tests;
 
 use App\Domain\Model\ReservationModel;
-use App\Domain\ServiceImpl\ReserverImpl;
 use App\Domain\ServiceInterface\ReserverInterface;
 use App\Infrastructure\Repository\ReservationRepository;
 use DateTimeImmutable;
@@ -13,7 +12,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ReserverTest extends KernelTestCase
 {
 
-    private ?ReserverInterface $reserverImpl;    
+    private ?ReserverInterface $reserverInterface;    
 
     public static function setUpBeforeClass(): void
     {
@@ -27,7 +26,7 @@ class ReserverTest extends KernelTestCase
     }
     protected function setUp(): void
     {
-        $this->reserverImpl = static::getContainer()
+        $this->reserverInterface = static::getContainer()
         ->get(ReserverInterface::class);
     }
 
@@ -40,7 +39,7 @@ class ReserverTest extends KernelTestCase
           array("Nora", new DateTimeImmutable("now+1"), -10),
           array("Nora", new DateTimeImmutable("now+1"), 0),
           array("Nora", new DateTimeImmutable("now -1 hour"), 10),
-          array("Nora", new DateTimeImmutable("now +1 hour"), ReserverImpl::MAX_DURATION + 1),
+          array("Nora", new DateTimeImmutable("now +1 hour"), ReserverInterface::MAX_DURATION + 1),
         );
     }
 
@@ -49,13 +48,9 @@ class ReserverTest extends KernelTestCase
         return array(
           array("Nora", new DateTimeImmutable("now+1 hour"), 10),
           array("Nora", new DateTimeImmutable("now+1 day"), 20),
-          array("Nora", new DateTimeImmutable("now+1 week"), ReserverImpl::MAX_DURATION)
+          array("Nora", new DateTimeImmutable("now+1 week"), ReserverInterface::MAX_DURATION),
+          array("Nora", new DateTimeImmutable("now+1 week"), ReserverInterface::MAX_DURATION-1)
         );
-    }
-
-    public function testCheckClassofReserverImpl(): void
-    {
-        $this->assertInstanceOf(ReserverImpl::class, $this->reserverImpl);
     }
 
     #[DataProvider('providerBadData')]
@@ -63,14 +58,14 @@ class ReserverTest extends KernelTestCase
     {   
         $this->expectException(InvalidArgumentException::class);
         $reservationModel = new ReservationModel($name, $date, $duration);
-        $this->reserverImpl->reserver($reservationModel);
+        $this->reserverInterface->reserver($reservationModel);
     }
 
     #[DataProvider('providerGoodData')]
     public function testReserverIsCalled_withReservationModelGoodData_thenReturnNull($name, $date, $duration): void
     {   
         $reservationModel = new ReservationModel($name, $date, $duration);
-        $result = $this->reserverImpl->reserver($reservationModel);
+        $result = $this->reserverInterface->reserver($reservationModel);
         $this->assertNull($result);
     }
 

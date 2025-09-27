@@ -10,7 +10,6 @@ use App\Domain\ServiceInterface\ReserverInterface;
 
 class ReserverImpl implements ReserverInterface
 {
-    public const MAX_DURATION = 60; // in minutes
 
     public function __construct(private EntityManagerInterface $entityManager, private MapperToReservationModelInterface $objectMapper)
     {
