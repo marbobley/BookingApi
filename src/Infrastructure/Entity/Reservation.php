@@ -2,12 +2,11 @@
 
 namespace App\Infrastructure\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use ApiPlatform\Metadata\ApiResource;
-
 use App\Domain\Model\ReservationModel;
 use App\Infrastructure\Repository\ReservationRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\ObjectMapper\Attribute\Map;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ApiResource]

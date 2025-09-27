@@ -1,9 +1,10 @@
-<?php 
+<?php
 
 namespace App\Domain\MapperInterface;
 
 use App\Domain\Model\ReservationModel;
 
-interface MapperToReservationModelInterface{
-    function mapper(ReservationModel $object) : Object;
+interface MapperToReservationModelInterface
+{
+    public function mapper(ReservationModel $object): object;
 }
