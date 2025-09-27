@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceImpl\ReserverImpl;
-use App\Domain\ServiceInterface\ReseverInterface;
+use App\Domain\ServiceInterface\ReserverInterface;
 use App\Infrastructure\Repository\ReservationRepository;
 use DateTimeImmutable;
 use InvalidArgumentException;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ReserverTest extends KernelTestCase
 {
 
-    private ?ReseverInterface $reserverImpl;    
+    private ?ReserverInterface $reserverImpl;    
 
     public static function setUpBeforeClass(): void
     {
@@ -28,7 +28,7 @@ class ReserverTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->reserverImpl = static::getContainer()
-        ->get(ReseverInterface::class);
+        ->get(ReserverInterface::class);
     }
 
 

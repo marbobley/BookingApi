@@ -3,12 +3,12 @@
 namespace App\Domain\ServiceImpl;
 
 use App\Domain\Model\ReservationModel;
-use App\Domain\ServiceInterface\ReseverInterface;
+use App\Domain\ServiceInterface\ReserverInterface;
 use App\Infrastructure\Entity\Reservation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 
-class ReserverImpl implements ReseverInterface
+class ReserverImpl implements ReserverInterface
 {
     public const MAX_DURATION = 60; // in minutes
 

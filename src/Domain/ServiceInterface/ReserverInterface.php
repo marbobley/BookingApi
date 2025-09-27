@@ -4,7 +4,7 @@ namespace App\Domain\ServiceInterface;
 
 use App\Domain\Model\ReservationModel;
 
-interface ReseverInterface
+interface ReserverInterface
 {
     public function reserver(ReservationModel $reservation): ?ReservationModel;
 }
