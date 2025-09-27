@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ReserverImpl implements ReseverInterface
 {
+    public const MAX_DURATION = 60; // in minutes
 
     public function __construct(private EntityManagerInterface $entityManager)
     {
@@ -28,6 +29,9 @@ class ReserverImpl implements ReseverInterface
 
         if( $reservation->getMinuteDuration() <= 0) {
             throw new \InvalidArgumentException("Duration must be positive and different from zero");
+        }
+        if( $reservation->getMinuteDuration() > self::MAX_DURATION) {
+            throw new \InvalidArgumentException("Duration cannot exceed ".self::MAX_DURATION." minutes");
         }
 
         return null;

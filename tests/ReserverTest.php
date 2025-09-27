@@ -30,7 +30,17 @@ class ReserverTest extends KernelTestCase
           array("Nora", new DateTimeImmutable("now"), 0),
           array("Nora", new DateTimeImmutable("now+1"), -10),
           array("Nora", new DateTimeImmutable("now+1"), 0),
-          array("Nora", new DateTimeImmutable("now -1 hour"), 10)
+          array("Nora", new DateTimeImmutable("now -1 hour"), 10),
+          array("Nora", new DateTimeImmutable("now +1 hour"), ReserverImpl::MAX_DURATION + 1),
+        );
+    }
+
+    public static function providerGoodData()
+    {
+        return array(
+          array("Nora", new DateTimeImmutable("now+1 hour"), 10),
+          array("Nora", new DateTimeImmutable("now+1 day"), 20),
+          array("Nora", new DateTimeImmutable("now+1 week"), ReserverImpl::MAX_DURATION)
         );
     }
 
@@ -45,6 +55,14 @@ class ReserverTest extends KernelTestCase
         $this->expectException(InvalidArgumentException::class);
         $reservationModel = new ReservationModel($name, $date, $duration);
         $this->reserverImpl->reserver($reservationModel);
+    }
+
+    #[DataProvider('providerGoodData')]
+    public function testReserverIsCalled_withReservationModelGoodData_thenReturnNull($name, $date, $duration): void
+    {   
+        $reservationModel = new ReservationModel($name, $date, $duration);
+        $result = $this->reserverImpl->reserver($reservationModel);
+        $this->assertNull($result);
     }
     
 
