@@ -1,0 +1,4 @@
+# config/packages/maker.yaml
+when@dev:
+    maker:
+        root_namespace: 'App\Infrastructure'
