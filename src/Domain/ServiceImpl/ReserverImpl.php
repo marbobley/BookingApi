@@ -6,6 +6,7 @@ use App\Domain\MapperInterface\MapperToReservationModelInterface;
 use App\Domain\Model\ReservationModel;
 use App\Domain\RepositoryInterface\ReservationRepositoryInterface;
 use App\Domain\ServiceInterface\ReserverInterface;
+use App\Domain\Utils\DateService;
 use App\Exception\FunctionalException;
 use DateTime;
 use DateTimeImmutable;
@@ -18,12 +19,17 @@ use Doctrine\ORM\EntityManagerInterface;
 */
 class ReserverImpl implements ReserverInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager, private MapperToReservationModelInterface $objectMapper, private ReservationRepositoryInterface $reservationRepositoryInterface)
+    public function __construct(
+        private EntityManagerInterface $entityManager, 
+        private MapperToReservationModelInterface $objectMapper, 
+        private ReservationRepositoryInterface $reservationRepositoryInterface,
+        private DateService $dateService)
     {
     }
+    
 
     private static function checkIfDateIsRoundHour(DateTimeImmutable $date) : bool{
-        dd($date);
+        dd($date->format('H i s'));
 
         return true;
     }
@@ -43,9 +49,6 @@ class ReserverImpl implements ReserverInterface
             throw new \InvalidArgumentException('Date cannot be in the past');
         }
 
-        $isRoundHour = self::checkIfDateIsRoundHour($reservation->getStartingDate());
-
-
         if ($reservation->getMinuteDuration() <= 0) {
             throw new \InvalidArgumentException('Duration must be positive and different from zero');
         }
@@ -59,6 +62,20 @@ class ReserverImpl implements ReserverInterface
         {
             throw new FunctionalException("Period is already in use");
         }
+
+        $dateOpen = $reservation->getStartingDate()->setTime(9,30,0,0);
+
+        $dateClosed = new \DateTimeImmutable("now");
+        $dateClosed = $reservation->getStartingDate()->setTime(19,30,0,0);
+    
+
+        $reservationIsOnOpenTime = $this->dateService->IsDateBetween($reservation->getStartingDate(),$dateOpen,$dateClosed);
+        if(!$reservationIsOnOpenTime)
+        {
+            throw new FunctionalException("Reservation date is not on opening time");
+        }
+
+
         $reservationMap = $this->objectMapper->mapper($reservation);
         $this->entityManager->persist($reservationMap);
         $this->entityManager->flush();
