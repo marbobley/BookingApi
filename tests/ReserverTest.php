@@ -75,7 +75,7 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerBadData')]
-    public function testReserverIsCalledWithReservationModelBadDataThenThrowInvalidArgumentException($name, $date, $duration): void
+    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException($name, $date, $duration): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $reservationModel = new ReservationModel($name, $date, $duration);
@@ -83,7 +83,7 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerGoodData')]
-    public function testReserverIsCalledWithReservationModelGoodDataThenReturnNull($name, $date, $duration): void
+    public function testReserverIsCalled_withReservationModelGoodData_thenReturnReservationModeil($name, $date, $duration): void
     {
         $reservationModel = new ReservationModel($name, $date, $duration);
         $result = $this->reserverInterface->reserver($reservationModel);
