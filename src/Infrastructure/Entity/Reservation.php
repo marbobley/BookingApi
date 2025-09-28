@@ -41,16 +41,21 @@ class Reservation
         return $this->username;
     }
 
+    public function getStartingDate(): ?\DateTimeImmutable
+    {
+        return $this->startingDate;
+    }
+    
+    public function getMinuteDuration(): ?int
+    {
+        return $this->minuteDuration;
+    }
+
     public function setUsername(string $username): static
     {
         $this->username = $username;
 
         return $this;
-    }
-
-    public function getStartingDate(): ?\DateTimeImmutable
-    {
-        return $this->startingDate;
     }
 
     public function setStartingDate(\DateTimeImmutable $startingDate): static
@@ -60,10 +65,6 @@ class Reservation
         return $this;
     }
 
-    public function getMinuteDuration(): ?int
-    {
-        return $this->minuteDuration;
-    }
 
     public function setMinuteDuration(int $minuteDuration): static
     {

@@ -7,6 +7,8 @@ use App\Domain\Model\ReservationModel;
 use App\Domain\RepositoryInterface\ReservationRepositoryInterface;
 use App\Domain\ServiceInterface\ReserverInterface;
 use App\Exception\FunctionalException;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
 /*
@@ -20,12 +22,19 @@ class ReserverImpl implements ReserverInterface
     {
     }
 
+    private static function checkIfDateIsRoundHour(DateTimeImmutable $date) : bool{
+        dd($date);
+
+        return true;
+    }
+
     /*
         * @param ReservationModel $reservation
         * @return ReservationModel|null
     */
     public function reserver(ReservationModel $reservation): ?ReservationModel
     {
+
         if (empty($reservation->getUsername())) {
             throw new \InvalidArgumentException('Name cannot be empty');
         }
@@ -33,6 +42,9 @@ class ReserverImpl implements ReserverInterface
         if ($reservation->getStartingDate() < new \DateTimeImmutable('now')) {
             throw new \InvalidArgumentException('Date cannot be in the past');
         }
+
+        $isRoundHour = self::checkIfDateIsRoundHour($reservation->getStartingDate());
+
 
         if ($reservation->getMinuteDuration() <= 0) {
             throw new \InvalidArgumentException('Duration must be positive and different from zero');
