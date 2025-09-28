@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\tests\Domain\Service;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceInterface\ReserverInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\tests;
+namespace App\tests\Domain\Utils;
 
 use App\Domain\Utils\DateService;
 use InvalidArgumentException;
