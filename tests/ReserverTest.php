@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ServiceInterface\ReserverInterface;
+use App\Exception\FunctionalException;
 use App\Infrastructure\Entity\Reservation;
 use App\Infrastructure\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,13 +46,17 @@ class ReserverTest extends KernelTestCase
 
     public static function providerBadData()
     {
+        $now = new \DateTimeImmutable('now');
+        $now = $now->setTime(11,0);    
+
         return [
-            ['', new \DateTimeImmutable('now'), 0],
-            ['Nora', new \DateTimeImmutable('now'), 0],
-            ['Nora', new \DateTimeImmutable('now+1'), -10],
-            ['Nora', new \DateTimeImmutable('now+1'), 0],
-            ['Nora', new \DateTimeImmutable('now -1 hour'), 10],
-            ['Nora', new \DateTimeImmutable('now +1 hour'), ReserverInterface::MAX_DURATION + 1],
+            ['',     $now, 0, \InvalidArgumentException::class],
+            ['Nora', $now, 0, \InvalidArgumentException::class],
+            ['Nora', $now, -10, \InvalidArgumentException::class],
+            ['Nora', $now, 0, \InvalidArgumentException::class],
+            ['Nora', $now,  10, \InvalidArgumentException::class],
+            ['Nora', $now, ReserverInterface::MAX_DURATION + 1, \InvalidArgumentException::class],
+            ['Nora', $now->setTime(19,31), ReserverInterface::MAX_DURATION , FunctionalException::class],
         ];
     }
 
@@ -75,9 +80,9 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerBadData')]
-    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException($name, $date, $duration): void
+    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException($name, $date, $duration, $expectedResult): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException($expectedResult);
         $reservationModel = new ReservationModel($name, $date, $duration);
         $this->reserverInterface->reserver($reservationModel);
     }
