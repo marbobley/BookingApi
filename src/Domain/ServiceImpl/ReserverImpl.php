@@ -4,6 +4,7 @@ namespace App\Domain\ServiceImpl;
 
 use App\Domain\MapperInterface\MapperToReservationModelInterface;
 use App\Domain\Model\ReservationModel;
+use App\Domain\RepositoryInterface\ReservationRepositoryInterface;
 use App\Domain\ServiceInterface\ReserverInterface;
 use App\Exception\FunctionalException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 */
 class ReserverImpl implements ReserverInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager, private MapperToReservationModelInterface $objectMapper)
+    public function __construct(private EntityManagerInterface $entityManager, private MapperToReservationModelInterface $objectMapper, private ReservationRepositoryInterface $reservationRepositoryInterface)
     {
     }
 
@@ -46,8 +47,6 @@ class ReserverImpl implements ReserverInterface
         {
             throw new FunctionalException("Period is already in use");
         }
-
-
         $reservationMap = $this->objectMapper->mapper($reservation);
         $this->entityManager->persist($reservationMap);
         $this->entityManager->flush();
@@ -56,5 +55,9 @@ class ReserverImpl implements ReserverInterface
         $reservation->setId($reservationMap->getId());
 
         return $reservation;
+    }
+
+    public function getReservations() :array{
+        return $this->reservationRepositoryInterface->findAll();
     }
 }

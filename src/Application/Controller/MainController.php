@@ -16,10 +16,17 @@ final class MainController extends AbstractController
         $reservationModel = new ReservationModel(
             'nora',
             new \DateTimeImmutable('2028-06-20T10:00:00+00:00'),
-            60
+            30
         );
         $reserver2 = $reserver->reserver($reservationModel);
 
         return $this->json($reserver2);
+    }
+
+    #[Route('main/Reservations', name:'app_main_reservation', methods:['GET'])]
+    public function getReservation(ReserverInterface $reserver) : JsonResponse
+    {
+        $reserver = $reserver->getReservations();
+        return $this->json($reserver);
     }
 }
