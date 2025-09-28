@@ -10,8 +10,7 @@ class ReservationModel
     
     public function __construct(
         private string $username,
-        private \DateTimeImmutable $startingDate,
-        private int $minuteDuration,
+        private \DateTimeImmutable $startingDate
     ) {
     }
 
@@ -23,11 +22,6 @@ class ReservationModel
     public function getStartingDate(): \DateTimeImmutable
     {
         return $this->startingDate;
-    }
-
-    public function getMinuteDuration(): int
-    {
-        return $this->minuteDuration;
     }
 
     /**

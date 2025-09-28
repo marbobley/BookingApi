@@ -31,8 +31,7 @@ class ReserverTest extends KernelTestCase
         $reservationEntity = new Reservation();
         $reservationEntity
             ->setUsername('Bob')
-            ->setStartingDate(new \DateTimeImmutable('now+1'))
-            ->setMinuteDuration(ReserverInterface::MAX_DURATION);
+            ->setStartingDate(new \DateTimeImmutable('now+1'));
 
         $entityManager->persist($reservationEntity);
         $entityManager->flush();        
@@ -50,47 +49,47 @@ class ReserverTest extends KernelTestCase
         $now = $now->setTime(11,0);    
 
         return [
-            ['',     $now, 0, \InvalidArgumentException::class],
-            ['Nora', $now, 0, \InvalidArgumentException::class],
-            ['Nora', $now, -10, \InvalidArgumentException::class],
-            ['Nora', $now, 0, \InvalidArgumentException::class],
-            ['Nora', $now,  10, \InvalidArgumentException::class],
-            ['Nora', $now, ReserverInterface::MAX_DURATION + 1, \InvalidArgumentException::class],
-            ['Nora', $now->setTime(19,31), ReserverInterface::MAX_DURATION , FunctionalException::class],
+            ['',     $now, \InvalidArgumentException::class],
+            ['Nora', $now, \InvalidArgumentException::class],
+            ['Nora', $now, \InvalidArgumentException::class],
+            ['Nora', $now, \InvalidArgumentException::class],
+            ['Nora', $now, \InvalidArgumentException::class],
+            ['Nora', $now, \InvalidArgumentException::class],
+            ['Nora', $now->setTime(19,31) , FunctionalException::class],
         ];
     }
 
     public static function providerGoodData()
     {
         return [
-            ['Nora', new \DateTimeImmutable('now+1 hour'), ReserverInterface::MAX_DURATION],
-            ['Nora', new \DateTimeImmutable('now+1 day'), ReserverInterface::MAX_DURATION],
-            ['Nora', new \DateTimeImmutable('now+1 week'), ReserverInterface::MAX_DURATION],
-            ['Nora', new \DateTimeImmutable('now+1 week'), ReserverInterface::MAX_DURATION],
+            ['Nora', new \DateTimeImmutable('now+1 hour')],
+            ['Nora', new \DateTimeImmutable('now+1 day')],
+            ['Nora', new \DateTimeImmutable('now+1 week')],
+            ['Nora', new \DateTimeImmutable('now+1 week')],
         ];
     }
 
     public static function providerBadDataReservationOnTheSamePeriod(){
         return [
-            ['Nora', new \DateTimeImmutable('now'), ReserverInterface::MAX_DURATION],
-            ['Nora', new \DateTimeImmutable('now'), ReserverInterface::MAX_DURATION],
-            ['Nora', new \DateTimeImmutable('now'), ReserverInterface::MAX_DURATION],
-            ['Nora', new \DateTimeImmutable('now'), ReserverInterface::MAX_DURATION - 1],
+            ['Nora', new \DateTimeImmutable('now')],
+            ['Nora', new \DateTimeImmutable('now')],
+            ['Nora', new \DateTimeImmutable('now')],
+            ['Nora', new \DateTimeImmutable('now')],
         ];
     }
 
     #[DataProvider('providerBadData')]
-    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException($name, $date, $duration, $expectedResult): void
+    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException($name, $date, $expectedResult): void
     {
         $this->expectException($expectedResult);
-        $reservationModel = new ReservationModel($name, $date, $duration);
+        $reservationModel = new ReservationModel($name, $date);
         $this->reserverInterface->reserver($reservationModel);
     }
 
     #[DataProvider('providerGoodData')]
-    public function testReserverIsCalled_withReservationModelGoodData_thenReturnReservationModeil($name, $date, $duration): void
+    public function testReserverIsCalled_withReservationModelGoodData_thenReturnReservationModeil($name, $date): void
     {
-        $reservationModel = new ReservationModel($name, $date, $duration);
+        $reservationModel = new ReservationModel($name, $date);
         $result = $this->reserverInterface->reserver($reservationModel);
         $this->assertInstanceOf(ReservationModel::class, $result);
         $this->assertTrue($result->getIsReserved());

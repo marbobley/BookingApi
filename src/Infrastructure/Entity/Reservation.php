@@ -27,10 +27,6 @@ class Reservation
     #[Map(source: 'startingDate')]
     private ?\DateTimeImmutable $startingDate = null;
 
-    #[ORM\Column]
-    #[Map(source: 'minuteDuration')]
-    private ?int $minuteDuration = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -46,10 +42,6 @@ class Reservation
         return $this->startingDate;
     }
     
-    public function getMinuteDuration(): ?int
-    {
-        return $this->minuteDuration;
-    }
 
     public function setUsername(string $username): static
     {
@@ -61,14 +53,6 @@ class Reservation
     public function setStartingDate(\DateTimeImmutable $startingDate): static
     {
         $this->startingDate = $startingDate;
-
-        return $this;
-    }
-
-
-    public function setMinuteDuration(int $minuteDuration): static
-    {
-        $this->minuteDuration = $minuteDuration;
 
         return $this;
     }

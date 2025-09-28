@@ -49,13 +49,6 @@ class ReserverImpl implements ReserverInterface
             throw new \InvalidArgumentException('Date cannot be in the past');
         }
 
-        if ($reservation->getMinuteDuration() <= 0) {
-            throw new \InvalidArgumentException('Duration must be positive and different from zero');
-        }
-        if ($reservation->getMinuteDuration() > self::MAX_DURATION) {
-            throw new \InvalidArgumentException('Duration cannot exceed '.self::MAX_DURATION.' minutes');
-        }
-
         $periodIsAlreadyInUse = false; 
 
         if($periodIsAlreadyInUse)
