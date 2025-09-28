@@ -74,6 +74,10 @@ class ReserverImpl implements ReserverInterface
         {
             throw new FunctionalException("Reservation date is not on opening time");
         }
+        // Jour férié  https://calendrier.api.gouv.fr/jours-feries/
+        // Week end 
+        // vacances 
+
 
 
         $reservationMap = $this->objectMapper->mapper($reservation);
