@@ -64,8 +64,6 @@ class ReserverImpl implements ReserverInterface
         }
 
         $dateOpen = $reservation->getStartingDate()->setTime(9,30,0,0);
-
-        $dateClosed = new \DateTimeImmutable("now");
         $dateClosed = $reservation->getStartingDate()->setTime(19,30,0,0);
     
 
