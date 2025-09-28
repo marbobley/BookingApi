@@ -15,7 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 /*
     Coeur du domaine métier 
     Le but est de pouvoir faire des reservation sur des transches horraires de 30 minutes, sur heure plein 08:00 / 08:30 / 09:30 
-    La durée est sauvegardé mais peut être basculé sur une date de fin 
 */
 class ReserverImpl implements ReserverInterface
 {
