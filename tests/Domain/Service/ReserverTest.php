@@ -7,6 +7,8 @@ use App\Domain\ServiceInterface\ReserverInterface;
 use App\Exception\FunctionalException;
 use App\Infrastructure\Entity\Reservation;
 use App\Infrastructure\Repository\ReservationRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -14,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class ReserverTest extends KernelTestCase
 {
     private ?ReserverInterface $reserverInterface;
+    private ?ReservationRepository $reservationRepository;
 
     public static function setUpBeforeClass(): void
     {
@@ -41,6 +44,9 @@ class ReserverTest extends KernelTestCase
     {
         $this->reserverInterface = static::getContainer()
         ->get(ReserverInterface::class);
+
+        $this->reservationRepository = static::getContainer()
+        ->get(ReservationRepository::class);
     }
 
     public static function providerBadData()
@@ -79,7 +85,7 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerBadData')]
-    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException($name, $date, $expectedResult): void
+    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException(string $name, DateTimeImmutable $date, string $expectedResult): void
     {
         $this->expectException($expectedResult);
         $reservationModel = new ReservationModel($name, $date);
@@ -87,11 +93,13 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerGoodData')]
-    public function testReserverIsCalled_withReservationModelGoodData_thenReturnReservationModeil($name, $date): void
+    public function testReserverIsCalled_withReservationModelGoodData_thenReturnReservationModeil(string $name, DateTimeImmutable $date): void
     {
         $reservationModel = new ReservationModel($name, $date);
         $result = $this->reserverInterface->reserver($reservationModel);
         $this->assertInstanceOf(ReservationModel::class, $result);
         $this->assertTrue($result->getIsReserved());
+        $this->assertSame($result->getUsername(), $name);
+        $this->assertSame($result->getStartingDate(), $date);
     }
 }

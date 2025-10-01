@@ -12,8 +12,12 @@ class MapperToReservationModel
     {
     }
 
-    public function mapper(ReservationModel $object): Reservation
+    public function mapperModelToEntity(ReservationModel $object): Reservation
     {
         return $this->objectMapper->map($object, Reservation::class);
+    }
+
+    public function mapperEntityToModel(Reservation $object) : ReservationModel {
+        return $this->objectMapper->map($object , ReservationModel::class);
     }
 }

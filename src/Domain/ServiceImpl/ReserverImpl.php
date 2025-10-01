@@ -71,7 +71,7 @@ class ReserverImpl implements ReserverInterface
         return $reservationMap;
     }
 
-    public function getReservations() :array{
+    public function getReservations() : array{
         return $this->reservationProvider->findAll();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Infrastructure\Provider;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ProviderInterface\ReservationProviderInterface;
+use App\Infrastructure\Entity\Reservation;
 use App\Infrastructure\Mapper\MapperToReservationModel;
 use App\Infrastructure\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,18 +22,29 @@ class ReservationProvider implements ReservationProviderInterface
 
     function save(ReservationModel $reservationModel) : ReservationModel {
 
-        $reservationEntity = $this->mapperToReservationModel->mapper($reservationModel);
+        $reservationEntity = $this->mapperToReservationModel->mapperModelToEntity($reservationModel);
 
         $this->entityManager->persist($reservationEntity);
         $this->entityManager->flush();
-        
-        $reservationModel->setIsReserved(true);
-        $reservationModel->setId($reservationEntity->getId());
+        $reservationModelCreated = $this->mapperToReservationModel->mapperEntityToModel($reservationEntity);
+        $reservationModelCreated->setIsReserved(true);
 
-        return $reservationModel;
+        return $reservationModelCreated;
 
     }
+    function mapreserver($reservation)
+    {
+        return $this->mapperToReservationModel->mapperEntityToModel($reservation);
+    }
+
     function findAll() : array {
-        return $this->reservationRepository->findAll();        
+
+        $func = function(Reservation $value): ReservationModel {
+            $reserv = $this->mapperToReservationModel->mapperEntityToModel($value);
+            $reserv->setId($value->getId());
+            return $reserv;
+        };
+
+        return array_map($func, $this->reservationRepository->findAll());        
     }
 }
