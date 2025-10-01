@@ -72,10 +72,10 @@ class ReserverTest extends KernelTestCase
     public static function providerBadDataReservationOnTheSamePeriod()
     {
         return [
-            ['Nora', new \DateTimeImmutable('now')],
-            ['Nora', new \DateTimeImmutable('now')],
-            ['Nora', new \DateTimeImmutable('now')],
-            ['Nora', new \DateTimeImmutable('now')],
+            [   
+                ['Nora1', new \DateTimeImmutable('now+10 minute')],
+                ['Nora2', new \DateTimeImmutable('now+10 minute')]
+            ]
         ];
     }
 
@@ -96,5 +96,16 @@ class ReserverTest extends KernelTestCase
         $this->assertTrue($result->getIsReserved());
         $this->assertSame($result->getUsername(), $name);
         $this->assertSame($result->getStartingDate(), $date);
+    }
+
+    #[DataProvider('providerBadDataReservationOnTheSamePeriod')]
+    public function testReserverIsCalledWithReservationOnTheSameTimeThenThrowFunctionalException(array $reservation1 , array $reservation2 ) : void {
+        $this->expectException(FunctionalException::class);
+
+        $reservationModel1 = new ReservationModel($reservation1[0], $reservation1[1]);
+        $reservationModel2 = new ReservationModel($reservation2[0], $reservation2[1]);
+
+        $result = $this->reserverInterface->reserver($reservationModel1);
+        $result = $this->reserverInterface->reserver($reservationModel2);
     }
 }
