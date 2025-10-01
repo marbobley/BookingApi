@@ -2,15 +2,12 @@
 
 namespace App\Domain\ServiceImpl;
 
-use App\Domain\MapperInterface\MapperToReservationModelInterface;
 use App\Domain\Model\ReservationModel;
-use App\Domain\RepositoryInterface\ReservationRepositoryInterface;
+use App\Domain\ProviderInterface\ReservationProviderInterface ;
 use App\Domain\ServiceInterface\ReserverInterface;
 use App\Domain\Utils\DateService;
 use App\Exception\FunctionalException;
-use DateTime;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManagerInterface;
 
 /*
     Coeur du domaine métier 
@@ -18,10 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 */
 class ReserverImpl implements ReserverInterface
 {
-    public function __construct(
-        private EntityManagerInterface $entityManager, 
-        private MapperToReservationModelInterface $objectMapper, 
-        private ReservationRepositoryInterface $reservationRepositoryInterface,
+    public function __construct( 
+        private ReservationProviderInterface $reservationProvider,
         private DateService $dateService)
     {
     }
@@ -70,17 +65,13 @@ class ReserverImpl implements ReserverInterface
 
 
 
-        $reservationMap = $this->objectMapper->mapper($reservation);
-        $this->entityManager->persist($reservationMap);
-        $this->entityManager->flush();
+        $reservationMap = $this->reservationProvider->save($reservation);
 
-        $reservation->setIsReserved(true);
-        $reservation->setId($reservationMap->getId());
 
-        return $reservation;
+        return $reservationMap;
     }
 
     public function getReservations() :array{
-        return $this->reservationRepositoryInterface->findAll();
+        return $this->reservationProvider->findAll();
     }
 }
