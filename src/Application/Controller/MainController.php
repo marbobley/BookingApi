@@ -23,10 +23,11 @@ final class MainController extends AbstractController
         return $this->json($reserver2);
     }
 
-    #[Route('main/Reservations', name:'app_main_reservation', methods:['GET'])]
-    public function getReservation(ReserverInterface $reserver) : JsonResponse
+    #[Route('main/Reservations', name: 'app_main_reservation', methods: ['GET'])]
+    public function getReservation(ReserverInterface $reserver): JsonResponse
     {
         $reserver = $reserver->getReservations();
+
         return $this->json($reserver);
     }
 }

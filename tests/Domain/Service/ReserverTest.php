@@ -7,8 +7,6 @@ use App\Domain\ServiceInterface\ReserverInterface;
 use App\Exception\FunctionalException;
 use App\Infrastructure\Entity\Reservation;
 use App\Infrastructure\Repository\ReservationRepository;
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -37,7 +35,7 @@ class ReserverTest extends KernelTestCase
             ->setStartingDate(new \DateTimeImmutable('now+1'));
 
         $entityManager->persist($reservationEntity);
-        $entityManager->flush();        
+        $entityManager->flush();
     }
 
     protected function setUp(): void
@@ -52,7 +50,7 @@ class ReserverTest extends KernelTestCase
     public static function providerBadData()
     {
         $now = new \DateTimeImmutable('now');
-        $now = $now->setTime(11,0);    
+        $now = $now->setTime(11, 0);
 
         return [
             ['',     $now, \InvalidArgumentException::class],
@@ -61,7 +59,7 @@ class ReserverTest extends KernelTestCase
             ['Nora', $now, \InvalidArgumentException::class],
             ['Nora', $now, \InvalidArgumentException::class],
             ['Nora', $now, \InvalidArgumentException::class],
-            ['Nora', $now->setTime(19,31) , FunctionalException::class],
+            ['Nora', $now->setTime(19, 31), FunctionalException::class],
         ];
     }
 
@@ -75,7 +73,8 @@ class ReserverTest extends KernelTestCase
         ];
     }
 
-    public static function providerBadDataReservationOnTheSamePeriod(){
+    public static function providerBadDataReservationOnTheSamePeriod()
+    {
         return [
             ['Nora', new \DateTimeImmutable('now')],
             ['Nora', new \DateTimeImmutable('now')],
@@ -85,7 +84,7 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerBadData')]
-    public function testReserverIsCalled_withReservationModelBadData_thenThrowInvalidArgumentException(string $name, DateTimeImmutable $date, string $expectedResult): void
+    public function testReserverIsCalledWithReservationModelBadDataThenThrowInvalidArgumentException(string $name, \DateTimeImmutable $date, string $expectedResult): void
     {
         $this->expectException($expectedResult);
         $reservationModel = new ReservationModel($name, $date);
@@ -93,7 +92,7 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerGoodData')]
-    public function testReserverIsCalled_withReservationModelGoodData_thenReturnReservationModeil(string $name, DateTimeImmutable $date): void
+    public function testReserverIsCalledWithReservationModelGoodDataThenReturnReservationModeil(string $name, \DateTimeImmutable $date): void
     {
         $reservationModel = new ReservationModel($name, $date);
         $result = $this->reserverInterface->reserver($reservationModel);

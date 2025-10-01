@@ -13,15 +13,13 @@ class ReservationProvider implements ReservationProviderInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private ReservationRepository  $reservationRepository,
-        private MapperToReservationModel $mapperToReservationModel
-    )
-    {
-        
+        private ReservationRepository $reservationRepository,
+        private MapperToReservationModel $mapperToReservationModel,
+    ) {
     }
 
-    function save(ReservationModel $reservationModel) : ReservationModel {
-
+    public function save(ReservationModel $reservationModel): ReservationModel
+    {
         $reservationEntity = $this->mapperToReservationModel->mapperModelToEntity($reservationModel);
 
         $this->entityManager->persist($reservationEntity);
@@ -30,21 +28,22 @@ class ReservationProvider implements ReservationProviderInterface
         $reservationModelCreated->setIsReserved(true);
 
         return $reservationModelCreated;
-
     }
-    function mapreserver($reservation)
+
+    public function mapreserver($reservation)
     {
         return $this->mapperToReservationModel->mapperEntityToModel($reservation);
     }
 
-    function findAll() : array {
-
-        $func = function(Reservation $value): ReservationModel {
+    public function findAll(): array
+    {
+        $func = function (Reservation $value): ReservationModel {
             $reserv = $this->mapperToReservationModel->mapperEntityToModel($value);
             $reserv->setId($value->getId());
+
             return $reserv;
         };
 
-        return array_map($func, $this->reservationRepository->findAll());        
+        return array_map($func, $this->reservationRepository->findAll());
     }
 }

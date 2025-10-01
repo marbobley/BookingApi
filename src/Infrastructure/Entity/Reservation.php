@@ -41,7 +41,6 @@ class Reservation
     {
         return $this->startingDate;
     }
-    
 
     public function setUsername(string $username): static
     {

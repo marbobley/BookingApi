@@ -6,7 +6,7 @@ use App\Domain\Model\ReservationModel;
 use App\Infrastructure\Entity\Reservation;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 
-class MapperToReservationModel 
+class MapperToReservationModel
 {
     public function __construct(private ObjectMapperInterface $objectMapper)
     {
@@ -17,7 +17,8 @@ class MapperToReservationModel
         return $this->objectMapper->map($object, Reservation::class);
     }
 
-    public function mapperEntityToModel(Reservation $object) : ReservationModel {
-        return $this->objectMapper->map($object , ReservationModel::class);
+    public function mapperEntityToModel(Reservation $object): ReservationModel
+    {
+        return $this->objectMapper->map($object, ReservationModel::class);
     }
 }
