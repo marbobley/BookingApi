@@ -26,7 +26,7 @@ class ReservationModel
     /**
      * Get the value of isReserved.
      */
-    public function getIsReserved()
+    public function getIsReserved() : bool
     {
         return $this->isReserved;
     }
@@ -36,7 +36,7 @@ class ReservationModel
      *
      * @return self
      */
-    public function setIsReserved($isReserved)
+    public function setIsReserved(bool $isReserved)
     {
         $this->isReserved = $isReserved;
 
@@ -46,7 +46,7 @@ class ReservationModel
     /**
      * Get the value of id.
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -56,7 +56,7 @@ class ReservationModel
      *
      * @return self
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 

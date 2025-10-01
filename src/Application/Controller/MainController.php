@@ -15,8 +15,7 @@ final class MainController extends AbstractController
     {
         $reservationModel = new ReservationModel(
             'nora',
-            new \DateTimeImmutable('2025-09-28T17:35:01+00:00'),
-            30
+            new \DateTimeImmutable('2025-09-28T17:35:01+00:00')
         );
         $reserver2 = $reserver->reserver($reservationModel);
 

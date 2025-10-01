@@ -30,11 +30,6 @@ class ReservationProvider implements ReservationProviderInterface
         return $reservationModelCreated;
     }
 
-    public function mapreserver($reservation)
-    {
-        return $this->mapperToReservationModel->mapperEntityToModel($reservation);
-    }
-
     public function findAll(): array
     {
         $func = function (Reservation $value): ReservationModel {

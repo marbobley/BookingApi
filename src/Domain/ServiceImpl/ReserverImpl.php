@@ -19,14 +19,7 @@ class ReserverImpl implements ReserverInterface
         private DateService $dateService)
     {
     }
-
-    private static function checkIfDateIsRoundHour(\DateTimeImmutable $date): bool
-    {
-        dd($date->format('H i s'));
-
-        return true;
-    }
-
+    
     /*
         * @param ReservationModel $reservation
         * @return ReservationModel|null
