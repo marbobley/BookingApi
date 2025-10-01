@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class ReserverTest extends KernelTestCase
 {
     private ?ReserverInterface $reserverInterface;
-    private ?ReservationRepository $reservationRepository;
 
     public static function setUpBeforeClass(): void
     {
@@ -41,10 +40,7 @@ class ReserverTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->reserverInterface = static::getContainer()
-        ->get(ReserverInterface::class);
-
-        $this->reservationRepository = static::getContainer()
-        ->get(ReservationRepository::class);
+            ->get(ReserverInterface::class);
     }
 
     public static function providerBadData()
