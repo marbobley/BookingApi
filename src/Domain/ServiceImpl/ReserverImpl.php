@@ -19,7 +19,7 @@ class ReserverImpl implements ReserverInterface
         private DateService $dateService)
     {
     }
-    
+
     /*
         * @param ReservationModel $reservation
         * @return ReservationModel|null
@@ -40,8 +40,8 @@ class ReserverImpl implements ReserverInterface
             throw new FunctionalException('Period is already in use');
         }
 
-        $dateOpen =  $this->dateService->getOpening($reservation->getStartingDate(), 9 , 30);
-        $dateClosed = $this->dateService->getClosing($reservation->getStartingDate(), 19 , 30);
+        $dateOpen = $this->dateService->getOpening($reservation->getStartingDate(), 9, 30);
+        $dateClosed = $this->dateService->getClosing($reservation->getStartingDate(), 19, 30);
 
         $reservationIsOnOpenTime = $this->dateService->IsDateBetween($reservation->getStartingDate(), $dateOpen, $dateClosed);
         if (!$reservationIsOnOpenTime) {
