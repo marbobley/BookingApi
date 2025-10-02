@@ -25,7 +25,6 @@ class ReservationProvider implements ReservationProviderInterface
         $this->entityManager->persist($reservationEntity);
         $this->entityManager->flush();
         $reservationModelCreated = $this->mapperToReservationModel->mapperEntityToModel($reservationEntity);
-        $reservationModelCreated->setIsReserved(true);
 
         return $reservationModelCreated;
     }

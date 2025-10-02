@@ -5,7 +5,6 @@ namespace App\Domain\Model;
 class ReservationModel
 {
     private int $id = 0;
-    private bool $isReserved = false;
 
     public function __construct(
         private string $username,
@@ -21,26 +20,6 @@ class ReservationModel
     public function getStartingDate(): \DateTimeImmutable
     {
         return $this->startingDate;
-    }
-
-    /**
-     * Get the value of isReserved.
-     */
-    public function getIsReserved() : bool
-    {
-        return $this->isReserved;
-    }
-
-    /**
-     * Set the value of isReserved.
-     *
-     * @return self
-     */
-    public function setIsReserved(bool $isReserved)
-    {
-        $this->isReserved = $isReserved;
-
-        return $this;
     }
 
     /**
