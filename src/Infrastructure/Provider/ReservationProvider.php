@@ -40,4 +40,11 @@ class ReservationProvider implements ReservationProviderInterface
 
         return array_map($func, $this->reservationRepository->findAll());
     }
+
+    public function findById(int $id) : ReservationModel
+    {
+        return $this->mapperToReservationModel->mapperEntityToModel(
+            $this->reservationRepository->findOneBy(['id' => $id])
+        );
+    }
 }

@@ -60,4 +60,8 @@ class ReserverImpl implements ReserverInterface
     {
         return $this->reservationProvider->findAll();
     }
+
+    public function getReservation(int $id) : ReservationModel{
+        return $this->reservationProvider->findById($id);
+    }
 }

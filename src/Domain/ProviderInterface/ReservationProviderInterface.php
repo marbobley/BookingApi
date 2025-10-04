@@ -12,4 +12,6 @@ interface ReservationProviderInterface
      * @return list<ReservationModel>
      */
     public function findAll(): array;
+
+    public function findById(int $id) : ReservationModel;
 }
