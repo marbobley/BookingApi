@@ -7,8 +7,8 @@ class ReservationModel
     private int $id = 0;
 
     public function __construct(
-        private string $username,
-        private \DateTimeImmutable $startingDate,
+        private readonly string $username,
+        private readonly \DateTimeImmutable $startingDate,
     ) {
     }
 
