@@ -9,7 +9,7 @@ use App\Infrastructure\Mapper\MapperToReservationModel;
 use App\Infrastructure\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ReservationProvider implements ReservationProviderInterface
+readonly class ReservationProvider implements ReservationProviderInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -24,24 +24,22 @@ class ReservationProvider implements ReservationProviderInterface
 
         $this->entityManager->persist($reservationEntity);
         $this->entityManager->flush();
-        $reservationModelCreated = $this->mapperToReservationModel->mapperEntityToModel($reservationEntity);
-
-        return $reservationModelCreated;
+        return $this->mapperToReservationModel->mapperEntityToModel($reservationEntity);
     }
 
     public function findAll(): array
     {
         $func = function (Reservation $value): ReservationModel {
-            $reserv = $this->mapperToReservationModel->mapperEntityToModel($value);
-            $reserv->setId($value->getId());
+            $reservationModel = $this->mapperToReservationModel->mapperEntityToModel($value);
+            $reservationModel->setId($value->getId());
 
-            return $reserv;
+            return $reservationModel;
         };
 
         return array_map($func, $this->reservationRepository->findAll());
     }
 
-    public function findById(int $id) : ReservationModel
+    public function findById(int $id): ReservationModel
     {
         return $this->mapperToReservationModel->mapperEntityToModel(
             $this->reservationRepository->findOneBy(['id' => $id])

@@ -2,23 +2,22 @@
 
 namespace App\Domain\Utils;
 
-use DateTime;
-use DateTimeImmutable;
-use DateTimeInterface;
 use InvalidArgumentException;
 
 class DateService
 {
-
-    public function now() : DateTimeImmutable{
-        return new DateTimeImmutable('now');
+    public function now(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable('now');
     }
 
-    public function getOpening(DateTimeImmutable $date, int $hourOpening, int $minuteOpening) : DateTimeImmutable{
+    public function getOpening(\DateTimeImmutable $date, int $hourOpening, int $minuteOpening): \DateTimeImmutable
+    {
         return $date->setTime($hourOpening, $minuteOpening);
     }
 
-    public function getClosing(DateTimeImmutable $date, int $hourClosing, int $minuteClosing) : DateTimeImmutable{
+    public function getClosing(\DateTimeImmutable $date, int $hourClosing, int $minuteClosing): \DateTimeImmutable
+    {
         return $date->setTime($hourClosing, $minuteClosing);
     }
 
@@ -31,7 +30,7 @@ class DateService
      *              If $startDate == $endDate == $dateToCheck then return true
      *              If $startDate == $endDate != $dateToCheck then return false
      */
-    public function IsDateBetween(\DateTimeImmutable $dateToCheck, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate) : bool
+    public function IsDateBetween(\DateTimeImmutable $dateToCheck, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate): bool
     {
         if ($startDate > $endDate) {
             throw new \InvalidArgumentException('startDate cannot be superior (futur) of endDate');

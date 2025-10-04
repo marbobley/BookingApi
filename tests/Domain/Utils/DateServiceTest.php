@@ -3,9 +3,6 @@
 namespace App\tests\Domain\Utils;
 
 use App\Domain\Utils\DateService;
-use DateTime;
-use DateTimeImmutable;
-use Doctrine\DBAL\Types\DateTimeImmutableType;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -60,15 +57,16 @@ class DateServiceTest extends TestCase
         $dateService->IsDateBetween($reservationDate, $openDate, $closeDate);
     }
 
-    public function testDateServiceGetOpeningDateThenGetOpeningDate(){
+    public function testDateServiceGetOpeningDateThenGetOpeningDate()
+    {
         $dateService = new DateService();
 
-        $date = new DateTimeImmutable('now');
-        $dateOpeningExpected = $date->setTime(9,45);
-        $dateClosingExpected = $date->setTime(19,45);
+        $date = new \DateTimeImmutable('now');
+        $dateOpeningExpected = $date->setTime(9, 45);
+        $dateClosingExpected = $date->setTime(19, 45);
 
-        $openingDate = $dateService->getOpening($date, 9 , 45);
-        $closingDate = $dateService->getClosing($date, 19 , 45);
+        $openingDate = $dateService->getOpening($date, 9, 45);
+        $closingDate = $dateService->getClosing($date, 19, 45);
 
         $this->assertEquals($dateOpeningExpected, $openingDate, 'Opening date is not corresponding to Expected date');
         $this->assertEquals($dateClosingExpected, $closingDate, 'Closing date is not corresponding to Expected date');

@@ -14,5 +14,6 @@ interface ReserverInterface
      * @return list<ReservationModel>
      */
     public function getReservations(): array;
-    public function getReservation(int $id) : ReservationModel;
+
+    public function getReservation(int $id): ReservationModel;
 }
