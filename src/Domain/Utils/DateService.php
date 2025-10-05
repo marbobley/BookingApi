@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Utils;
 
 use App\Domain\Model\HourRange;
-use Exception;
 
 class DateService
 {
@@ -50,9 +49,7 @@ class DateService
     }
 
     /**
-     * Check if the date is round ie minute equal to 0 or 30
-     * @param \DateTimeImmutable $getStartingDate
-     * @return bool
+     * Check if the date is round ie minute equal to 0 or 30.
      */
     public function isRoundDate(\DateTimeImmutable $getStartingDate): bool
     {
