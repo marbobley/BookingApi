@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Domain\ProviderInterface;
 
 use App\Domain\Model\ReservationModel;

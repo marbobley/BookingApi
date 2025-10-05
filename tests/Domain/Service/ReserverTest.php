@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\tests\Domain\Service;
 
@@ -99,15 +100,16 @@ class ReserverTest extends KernelTestCase
         $this->assertSame($result->getUsername(), $name);
         $this->assertSame($result->getStartingDate(), $date);
     }
-    /*
-        #[DataProvider('providerBadDataReservationOnTheSamePeriod')]
-        public function testReserverIsCalledWithReservationOnTheSameTimeThenThrowFunctionalException(array $reservation1 , array $reservation2 ) : void {
-            //$this->expectException(FunctionalException::class);
 
-            $reservationModel1 = new ReservationModel($reservation1[0], $reservation1[1]);
-            $reservationModel2 = new ReservationModel($reservation2[0], $reservation2[1]);
+    #[DataProvider('providerBadDataReservationOnTheSamePeriod')]
+    public function testReserverIsCalledWithReservationOnTheSameTimeThenThrowFunctionalException(array $reservation1, array $reservation2): void
+    {
+        $this->expectException(FunctionalException::class);
 
-            $result = $this->reserverInterface->reserver($reservationModel1);
-            $result = $this->reserverInterface->reserver($reservationModel2);
-        }*/
+        $reservationModel1 = new ReservationModel($reservation1[0], $reservation1[1]);
+        $reservationModel2 = new ReservationModel($reservation2[0], $reservation2[1]);
+
+        $result = $this->reserverInterface->reserver($reservationModel1);
+        $result = $this->reserverInterface->reserver($reservationModel2);
+    }
 }
