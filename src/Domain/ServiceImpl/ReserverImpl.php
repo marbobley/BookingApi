@@ -42,6 +42,11 @@ readonly class ReserverImpl implements ReserverInterface
         if ($reservation->getStartingDate() < $this->dateService->now()) {
             throw new \InvalidArgumentException('Date cannot be in the past');
         }
+        // round date is 0 minute or 30 minute
+        $dateIsRound = $this->dateService->isRoundDate($reservation->getStartingDate());
+        if (!$dateIsRound) {
+            throw new \InvalidArgumentException('Date should be at 0 minute or 30 minutes');
+        }
 
         $periodIsAlreadyInUse = $this->reservationProvider->isDateAlreadyInUse($reservation->getStartingDate());
 

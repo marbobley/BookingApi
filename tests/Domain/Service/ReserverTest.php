@@ -48,11 +48,11 @@ class ReserverTest extends KernelTestCase
     public static function providerBadData(): array
     {
         $past = new \DateTimeImmutable('now-1 day');
-        $past = $past->setTime(9, 45);
+        $past = $past->setTime(9, 30);
 
         $future = new \DateTimeImmutable('now+1 day');
         // closed period
-        $future = $future->setTime(8, 45);
+        $future = $future->setTime(8, 30);
 
         return [
             ['',     $past, \InvalidArgumentException::class],
@@ -67,10 +67,10 @@ class ReserverTest extends KernelTestCase
 
         return [
             ['Nora', $future->setTime(9, 30)],
-            ['Nora', $future->setTime(9, 31)],
-            ['Nora', $future->setTime(9, 45)],
-            ['Nora', $future->setTime(19, 29)],
+            ['Nora', $future->setTime(10, 00)],
+            ['Nora', $future->setTime(9, 00)],
             ['Nora', $future->setTime(19, 30)],
+            ['Nora', $future->setTime(19, 00)],
         ];
     }
 

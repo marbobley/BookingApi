@@ -6,16 +6,15 @@ namespace App\tests\Domain\Utils;
 
 use App\Domain\Model\HourRange;
 use App\Domain\Utils\DateService;
-use Exception;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class DateServiceTest extends TestCase
 {
     /**
-     * @throws Exception
+     * @throws \Exception
      */
-    public static function providerData()
+    public static function providerData(): array
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
 
@@ -31,7 +30,28 @@ class DateServiceTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
+     */
+    public static function providerDateForDateRound(): array
+    {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+
+        return [
+            [$now->setTime(11, 1), false],
+            [$now->setTime(8, 5), false],
+            [$now->setTime(10, 10), false],
+            [$now->setTime(12, 15), false],
+            [$now->setTime(11, 20), false],
+            [$now->setTime(12, 25), false],
+            [$now->setTime(19, 0), true],
+            [$now->setTime(9, 30), true],
+            [$now->setTime(23, 0), true],
+            [$now->setTime(11, 30), true],
+        ];
+    }
+
+    /**
+     * @throws \Exception
      */
     public static function providerDataException(): array
     {
@@ -55,7 +75,7 @@ class DateServiceTest extends TestCase
     }
 
     #[DataProvider('providerDataException')]
-    public function testDateServiceIsDateBewteenWithExceptionDataThenThrowException(
+    public function testDateServiceIsDateBetweenWithExceptionDataThenThrowException(
         \DateTimeImmutable $reservationDate,
         \DateTimeImmutable $openDate,
         \DateTimeImmutable $closeDate,
@@ -83,5 +103,14 @@ class DateServiceTest extends TestCase
 
         $this->assertEquals($dateOpeningExpected, $openingDate, 'Opening date is not corresponding to Expected date');
         $this->assertEquals($dateClosingExpected, $closingDate, 'Closing date is not corresponding to Expected date');
+    }
+
+    #[DataProvider('providerDateForDateRound')]
+    public function testDateServiceIsNotRound(\DateTimeImmutable $date, bool $result)
+    {
+        $dateService = new DateService();
+
+        $isRound = $dateService->isRoundDate($date);
+        $this->assertEquals($result, $isRound);
     }
 }

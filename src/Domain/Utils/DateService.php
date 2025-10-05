@@ -10,7 +10,7 @@ use Exception;
 class DateService
 {
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function now(): \DateTimeImmutable
     {
@@ -47,5 +47,18 @@ class DateService
         }
 
         return false;
+    }
+
+    /**
+     * Check if the date is round ie minute equal to 0 or 30
+     * @param \DateTimeImmutable $getStartingDate
+     * @return bool
+     */
+    public function isRoundDate(\DateTimeImmutable $getStartingDate): bool
+    {
+        $minute = $getStartingDate->format('i');
+        $minuteInt = intval($minute);
+
+        return (bool) (30 == $minuteInt | 0 == $minuteInt);
     }
 }
