@@ -43,7 +43,7 @@ readonly class ReserverImpl implements ReserverInterface
             throw new \InvalidArgumentException('Date cannot be in the past');
         }
 
-        $periodIsAlreadyInUse = false;
+        $periodIsAlreadyInUse = $this->reservationProvider->isDateAlreadyInUse($reservation->getStartingDate());
 
         if ($periodIsAlreadyInUse) {
             throw new FunctionalException('Period is already in use');

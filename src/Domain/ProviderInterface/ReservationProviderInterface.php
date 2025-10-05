@@ -14,4 +14,6 @@ interface ReservationProviderInterface
     public function findAll(): array;
 
     public function findById(int $id): ReservationModel;
+
+    public function isDateAlreadyInUse(\DateTimeImmutable $getStartingDate);
 }

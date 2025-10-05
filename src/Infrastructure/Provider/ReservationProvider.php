@@ -46,4 +46,13 @@ readonly class ReservationProvider implements ReservationProviderInterface
             $this->reservationRepository->findOneBy(['id' => $id])
         );
     }
+
+    public function isDateAlreadyInUse(\DateTimeImmutable $getStartingDate) : bool
+    {
+        $reservation = $this->reservationRepository->findOneBy(['startingDate' => $getStartingDate]);
+        if($reservation)
+            return true;
+
+        return false;
+    }
 }

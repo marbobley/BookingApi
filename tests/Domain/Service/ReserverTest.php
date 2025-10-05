@@ -81,8 +81,8 @@ class ReserverTest extends KernelTestCase
     {
         return [
             [
-                ['Nora1', new \DateTimeImmutable('now+10 minute', new \DateTimeZone('Europe/Paris'))],
-                ['Nora2', new \DateTimeImmutable('now+10 minute', new \DateTimeZone('Europe/Paris'))],
+                ['Nora1', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(10,0)],
+                ['Nora2', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(10,0)],
             ],
         ];
     }
@@ -105,15 +105,20 @@ class ReserverTest extends KernelTestCase
         $this->assertSame($result->getStartingDate(), $date);
     }
 
-    /* #[DataProvider('providerBadDataReservationOnTheSamePeriod')]
-     public function testReserverIsCalledWithReservationOnTheSameTimeThenThrowFunctionalException(array $reservation1, array $reservation2): void
-     {
-         $this->expectException(FunctionalException::class);
+    #[DataProvider('providerBadDataReservationOnTheSamePeriod')]
+    public function testReserverIsCalledWithReservationOnTheSameTimeThenThrowFunctionalException(array $reservation1, array $reservation2): void
+    {
+        $this->expectException(FunctionalException::class);
 
-         $reservationModel1 = new ReservationModel($reservation1[0], $reservation1[1]);
-         $reservationModel2 = new ReservationModel($reservation2[0], $reservation2[1]);
+        $reservationModel1 = new ReservationModel($reservation1[0], $reservation1[1]);
+        $reservationModel2 = new ReservationModel($reservation2[0], $reservation2[1]);
 
-         $result = $this->reserverInterface->reserver($reservationModel1);
-         $result = $this->reserverInterface->reserver($reservationModel2);
-     }*/
+        $result = $this->reserverInterface->reserver($reservationModel1);
+
+        $this->assertInstanceOf(ReservationModel::class, $result);
+        $this->assertSame($result->getUsername(), $reservation1[0]);
+        $this->assertSame($result->getStartingDate(), $reservation1[1]);
+
+        $this->reserverInterface->reserver($reservationModel2);
+    }
 }
