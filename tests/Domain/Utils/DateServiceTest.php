@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\tests\Domain\Utils;
 
+use App\Domain\Model\HourRange;
 use App\Domain\Utils\DateService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -66,8 +68,11 @@ class DateServiceTest extends TestCase
         $dateOpeningExpected = $date->setTime(9, 45);
         $dateClosingExpected = $date->setTime(19, 45);
 
-        $openingDate = $dateService->getOpening($date, 9, 45);
-        $closingDate = $dateService->getClosing($date, 19, 45);
+        $open = new HourRange(9, 45);
+        $close = new HourRange(19, 45);
+
+        $openingDate = $dateService->getOpening($date, $open);
+        $closingDate = $dateService->getClosing($date, $close);
 
         $this->assertEquals($dateOpeningExpected, $openingDate, 'Opening date is not corresponding to Expected date');
         $this->assertEquals($dateClosingExpected, $closingDate, 'Closing date is not corresponding to Expected date');

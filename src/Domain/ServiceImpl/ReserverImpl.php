@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Domain\ServiceImpl;
 
 use App\Domain\Model\ReservationModel;
 use App\Domain\ProviderInterface\ReservationProviderInterface;
+use App\Domain\ServiceInterface\ParameterInterface;
 use App\Domain\ServiceInterface\ReserverInterface;
 use App\Domain\Utils\DateService;
 use App\Exception\FunctionalException;
@@ -13,10 +15,11 @@ use App\Exception\FunctionalException;
     Coeur du domaine métier
     Le but est de pouvoir faire des reservation sur des transches horraires de 30 minutes, sur heure plein 08:00 / 08:30 / 09:30
 */
-class ReserverImpl implements ReserverInterface
+readonly class ReserverImpl implements ReserverInterface
 {
     public function __construct(
         private ReservationProviderInterface $reservationProvider,
+        private ParameterInterface $parameter,
         private DateService $dateService)
     {
     }
@@ -25,6 +28,10 @@ class ReserverImpl implements ReserverInterface
         * @param ReservationModel $reservation
         * @return ReservationModel|null
     */
+    /**
+     * @throws FunctionalException
+     * @throws \InvalidArgumentException
+     */
     public function reserver(ReservationModel $reservation): ?ReservationModel
     {
         if (empty($reservation->getUsername())) {
@@ -41,8 +48,12 @@ class ReserverImpl implements ReserverInterface
             throw new FunctionalException('Period is already in use');
         }
 
-        $dateOpen = $this->dateService->getOpening($reservation->getStartingDate(), 9, 30);
-        $dateClosed = $this->dateService->getClosing($reservation->getStartingDate(), 19, 30);
+        $openingRange = $this->parameter->getOpenHourRange();
+        $open = $openingRange->getOpening();
+        $close = $openingRange->getClosing();
+
+        $dateOpen = $this->dateService->getOpening($reservation->getStartingDate(), $open);
+        $dateClosed = $this->dateService->getClosing($reservation->getStartingDate(), $close);
 
         $reservationIsOnOpenTime = $this->dateService->IsDateBetween($reservation->getStartingDate(), $dateOpen, $dateClosed);
         if (!$reservationIsOnOpenTime) {
@@ -52,9 +63,7 @@ class ReserverImpl implements ReserverInterface
         // Week end
         // vacances
 
-        $reservationMap = $this->reservationProvider->save($reservation);
-
-        return $reservationMap;
+        return $this->reservationProvider->save($reservation);
     }
 
     public function getReservations(): array

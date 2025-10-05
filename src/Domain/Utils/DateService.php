@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Utils;
 
+use App\Domain\Model\HourRange;
 use InvalidArgumentException;
 
 class DateService
@@ -12,14 +13,14 @@ class DateService
         return new \DateTimeImmutable('now');
     }
 
-    public function getOpening(\DateTimeImmutable $date, int $hourOpening, int $minuteOpening): \DateTimeImmutable
+    public function getOpening(\DateTimeImmutable $date, HourRange $hourRange): \DateTimeImmutable
     {
-        return $date->setTime($hourOpening, $minuteOpening);
+        return $date->setTime($hourRange->getHour(), $hourRange->getMinute());
     }
 
-    public function getClosing(\DateTimeImmutable $date, int $hourClosing, int $minuteClosing): \DateTimeImmutable
+    public function getClosing(\DateTimeImmutable $date,  HourRange $hourRange): \DateTimeImmutable
     {
-        return $date->setTime($hourClosing, $minuteClosing);
+        return $date->setTime($hourRange->getHour(), $hourRange->getMinute());
     }
 
     /**
