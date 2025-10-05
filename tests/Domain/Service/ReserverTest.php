@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\tests\Domain\Service;
@@ -44,7 +45,7 @@ class ReserverTest extends KernelTestCase
             ->get(ReserverInterface::class);
     }
 
-    public static function providerBadData()
+    public static function providerBadData(): array
     {
         $past = new \DateTimeImmutable('now-1 day');
         $past = $past->setTime(9, 45);
@@ -60,7 +61,7 @@ class ReserverTest extends KernelTestCase
         ];
     }
 
-    public static function providerGoodData()
+    public static function providerGoodData(): array
     {
         $future = new \DateTimeImmutable('now+1 day');
 
@@ -73,7 +74,10 @@ class ReserverTest extends KernelTestCase
         ];
     }
 
-    public static function providerBadDataReservationOnTheSamePeriod()
+    /**
+     * @throws \Exception
+     */
+    public static function providerBadDataReservationOnTheSamePeriod(): array
     {
         return [
             [
@@ -92,7 +96,7 @@ class ReserverTest extends KernelTestCase
     }
 
     #[DataProvider('providerGoodData')]
-    public function testReserverIsCalledWithReservationModelGoodDataThenReturnReservationModeil(string $name, \DateTimeImmutable $date): void
+    public function testReserverIsCalledWithReservationModelGoodDataThenReturnReservationModel(string $name, \DateTimeImmutable $date): void
     {
         $reservationModel = new ReservationModel($name, $date);
         $result = $this->reserverInterface->reserver($reservationModel);
@@ -101,15 +105,15 @@ class ReserverTest extends KernelTestCase
         $this->assertSame($result->getStartingDate(), $date);
     }
 
-   /* #[DataProvider('providerBadDataReservationOnTheSamePeriod')]
-    public function testReserverIsCalledWithReservationOnTheSameTimeThenThrowFunctionalException(array $reservation1, array $reservation2): void
-    {
-        $this->expectException(FunctionalException::class);
+    /* #[DataProvider('providerBadDataReservationOnTheSamePeriod')]
+     public function testReserverIsCalledWithReservationOnTheSameTimeThenThrowFunctionalException(array $reservation1, array $reservation2): void
+     {
+         $this->expectException(FunctionalException::class);
 
-        $reservationModel1 = new ReservationModel($reservation1[0], $reservation1[1]);
-        $reservationModel2 = new ReservationModel($reservation2[0], $reservation2[1]);
+         $reservationModel1 = new ReservationModel($reservation1[0], $reservation1[1]);
+         $reservationModel2 = new ReservationModel($reservation2[0], $reservation2[1]);
 
-        $result = $this->reserverInterface->reserver($reservationModel1);
-        $result = $this->reserverInterface->reserver($reservationModel2);
-    }*/
+         $result = $this->reserverInterface->reserver($reservationModel1);
+         $result = $this->reserverInterface->reserver($reservationModel2);
+     }*/
 }
