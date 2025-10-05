@@ -6,14 +6,18 @@ namespace App\tests\Domain\Utils;
 
 use App\Domain\Model\HourRange;
 use App\Domain\Utils\DateService;
+use Exception;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class DateServiceTest extends TestCase
 {
+    /**
+     * @throws Exception
+     */
     public static function providerData()
     {
-        $now = new \DateTimeImmutable('now');
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
 
         return [
             [$now->setTime(11, 0), $now->setTime(11, 0), $now->setTime(11, 0), true],
@@ -26,9 +30,12 @@ class DateServiceTest extends TestCase
         ];
     }
 
-    public static function providerDataException()
+    /**
+     * @throws Exception
+     */
+    public static function providerDataException(): array
     {
-        $now = new \DateTimeImmutable('now');
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
         $now = $now->setTime(11, 0);
 
         return [
@@ -64,7 +71,7 @@ class DateServiceTest extends TestCase
     {
         $dateService = new DateService();
 
-        $date = new \DateTimeImmutable('now');
+        $date = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
         $dateOpeningExpected = $date->setTime(9, 45);
         $dateClosingExpected = $date->setTime(19, 45);
 

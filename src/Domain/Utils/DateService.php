@@ -1,16 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Domain\Utils;
 
 use App\Domain\Model\HourRange;
-use InvalidArgumentException;
+use Exception;
 
 class DateService
 {
+    /**
+     * @throws Exception
+     */
     public function now(): \DateTimeImmutable
     {
-        return new \DateTimeImmutable('now');
+        return new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
     }
 
     public function getOpening(\DateTimeImmutable $date, HourRange $hourRange): \DateTimeImmutable
@@ -18,13 +22,13 @@ class DateService
         return $date->setTime($hourRange->getHour(), $hourRange->getMinute());
     }
 
-    public function getClosing(\DateTimeImmutable $date,  HourRange $hourRange): \DateTimeImmutable
+    public function getClosing(\DateTimeImmutable $date, HourRange $hourRange): \DateTimeImmutable
     {
         return $date->setTime($hourRange->getHour(), $hourRange->getMinute());
     }
 
     /**
-     * Check if $dateToCheck is  is between $starDate and $endDate
+     * Check if $dateToCheck is between $starDate and $endDate
      * Exception If $startDate > $endDate, throw InvalidArgumentException.
      *
      * @return bool if $dateToCheck is between $starDate and $endDate false if not

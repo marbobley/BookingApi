@@ -31,6 +31,7 @@ readonly class ReserverImpl implements ReserverInterface
     /**
      * @throws FunctionalException
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function reserver(ReservationModel $reservation): ?ReservationModel
     {
@@ -38,7 +39,7 @@ readonly class ReserverImpl implements ReserverInterface
             throw new \InvalidArgumentException('Name cannot be empty');
         }
 
-        if ($reservation->getStartingDate() < new \DateTimeImmutable('now')) {
+        if ($reservation->getStartingDate() < $this->dateService->now()) {
             throw new \InvalidArgumentException('Date cannot be in the past');
         }
 
