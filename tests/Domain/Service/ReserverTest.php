@@ -58,6 +58,7 @@ class ReserverTest extends KernelTestCase
             ['',     $past, \InvalidArgumentException::class],
             ['SomeNom',     $past, \InvalidArgumentException::class],
             ['SomeNom',     $future, FunctionalException::class],
+            ['SomeNom',     $future->setTime(8, 22), \InvalidArgumentException::class],
         ];
     }
 
@@ -84,6 +85,14 @@ class ReserverTest extends KernelTestCase
                 ['Nora1', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(19, 0)],
                 ['Nora2', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(19, 0)],
             ],
+            [
+                ['Nora1', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(18, 30)],
+                ['Nora2', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(18, 30)],
+            ],
+            [
+                ['Nora1', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(18, 0)],
+                ['Nora2', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(18, 0)],
+            ],
         ];
     }
 
@@ -103,6 +112,7 @@ class ReserverTest extends KernelTestCase
         $this->assertInstanceOf(ReservationModel::class, $result);
         $this->assertSame($result->getUsername(), $name);
         $this->assertSame($result->getStartingDate(), $date);
+        $this->assertNotNull($result->getId());
     }
 
     #[DataProvider('providerBadDataReservationOnTheSamePeriod')]

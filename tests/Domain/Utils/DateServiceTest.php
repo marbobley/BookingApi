@@ -87,6 +87,9 @@ class DateServiceTest extends TestCase
         $dateService->IsDateBetween($reservationDate, $openDate, $closeDate);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDateServiceGetOpeningDateThenGetOpeningDate()
     {
         $dateService = new DateService();
