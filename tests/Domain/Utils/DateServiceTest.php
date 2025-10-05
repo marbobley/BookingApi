@@ -98,6 +98,7 @@ class DateServiceTest extends TestCase
         $dateOpeningExpected = $date->setTime(9, 45);
         $dateClosingExpected = $date->setTime(19, 45);
 
+
         $open = new HourRange(9, 45);
         $close = new HourRange(19, 45);
 

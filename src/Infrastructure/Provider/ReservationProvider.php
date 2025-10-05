@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Provider;
@@ -25,6 +26,7 @@ readonly class ReservationProvider implements ReservationProviderInterface
 
         $this->entityManager->persist($reservationEntity);
         $this->entityManager->flush();
+
         return $this->mapperToReservationModel->mapperEntityToModel($reservationEntity);
     }
 
@@ -47,11 +49,12 @@ readonly class ReservationProvider implements ReservationProviderInterface
         );
     }
 
-    public function isDateAlreadyInUse(\DateTimeImmutable $getStartingDate) : bool
+    public function isDateAlreadyInUse(\DateTimeImmutable $getStartingDate): bool
     {
         $reservation = $this->reservationRepository->findOneBy(['startingDate' => $getStartingDate]);
-        if($reservation)
+        if ($reservation) {
             return true;
+        }
 
         return false;
     }
