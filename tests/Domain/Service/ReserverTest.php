@@ -81,8 +81,8 @@ class ReserverTest extends KernelTestCase
     {
         return [
             [
-                ['Nora1', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(10,0)],
-                ['Nora2', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(10,0)],
+                ['Nora1', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(19, 0)],
+                ['Nora2', (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->setTime(19, 0)],
             ],
         ];
     }
